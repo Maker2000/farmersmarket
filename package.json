@@ -1,12 +1,8 @@
 {
   "name": "farmersmarket-server",
   "version": "1.0.0",
-  "description": "online farmers market concept",
-  "main": "farmer-server.js",
-  "dependencies": {
-    "mongodb": "^3.6.9"
-  },
-  "devDependencies": {},
+  "description": "farmers market concept",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -14,12 +10,21 @@
     "type": "git",
     "url": "git+https://github.com/Maker2000/farmersmarket-server.git"
   },
-  "keywords": [],
-  "author": "",
-  "type": "module",
+  "keywords": [
+    "api",
+    "json",
+    "farmers",
+    "restful"
+  ],
+  "author": "Terrence Matthews",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Maker2000/farmersmarket-server/issues"
   },
-  "homepage": "https://github.com/Maker2000/farmersmarket-server#readme"
+  "homepage": "https://github.com/Maker2000/farmersmarket-server#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.12.14"
+  }
 }
