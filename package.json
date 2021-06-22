@@ -1,0 +1,24 @@
+{
+  "name": "farmersmarket-server",
+  "version": "1.0.0",
+  "description": "online farmers market concept",
+  "main": "farmer-server.js",
+  "dependencies": {
+    "mongodb": "^3.6.9"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Maker2000/farmersmarket-server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Maker2000/farmersmarket-server/issues"
+  },
+  "homepage": "https://github.com/Maker2000/farmersmarket-server#readme"
+}
