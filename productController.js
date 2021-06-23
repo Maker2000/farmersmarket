@@ -15,7 +15,7 @@ data: products,
 });
     });
 }
-exports.new = function(req, res){
+exports.new = function(req, res) {
     var product = new Product();
     product.name = req.body.name ?? product.name;
     product.price = req.body.price ?? product.price;
