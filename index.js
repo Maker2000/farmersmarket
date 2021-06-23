@@ -1,4 +1,5 @@
 // Import express
+
 let express = require('express');
 // Import Body parser
 //let bodyParser = require('body-parser');
@@ -6,7 +7,7 @@ let express = require('express');
 let mongoose = require('mongoose');
 // Initialise the app
 let app = express();
-
+require('dotenv/config');
 // Import routes
 let apiRoutes = require("./api-routes");
 app.use(express.json());
@@ -16,7 +17,7 @@ app.use(express.urlencoded({
 }));
 
 // Connect to Mongoose and set connection variable
-mongoose.connect('mongodb+srv://coderMatthews:CoderMatthews1996@cluster0.x0unn.mongodb.net/FarmersDB?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true, useUnifiedTopology: true });
 var db = mongoose.connection;
 
 // Added check for DB connection
