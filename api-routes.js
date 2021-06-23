@@ -8,5 +8,7 @@ router.get('/', function (req, res) {
         message: 'Welcome to RESTHub crafted with love!'
     });
 });
+var productController = require('./productController');
+router.route('/products').get(productController.index).post(productController.new);
 // Export API routes
 module.exports = router;
