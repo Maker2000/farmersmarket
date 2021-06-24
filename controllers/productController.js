@@ -1,5 +1,6 @@
-Product = require('./productModel');
-exports.index = function(req, res){
+Product = require('../models/productModel');
+
+exports.getProducts = function(req, res){
     Product.get(function (err, products){
 if(err){
     res.json({
@@ -15,7 +16,7 @@ data: products,
 });
     });
 }
-exports.new = function(req, res) {
+exports.newProduct = function(req, res){
     var product = new Product();
     product.name = req.body.name ?? product.name;
     product.price = req.body.price ?? product.price;

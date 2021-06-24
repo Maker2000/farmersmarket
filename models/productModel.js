@@ -1,5 +1,5 @@
 // productModel.js
-const { Double } = require('bson');
+
 var mongoose = require('mongoose');
 // Setup schema
 var productSchema = mongoose.Schema({
@@ -8,14 +8,14 @@ var productSchema = mongoose.Schema({
         required: true
     },
     price: {
-        type: String,
+        type: Number,
         required: true
     },
     ownerName: String,
    
 });
-// Export Contact model
-var Contact = module.exports = mongoose.model('product', productSchema);
+// Export Product model
+var Product = module.exports = mongoose.model('product', productSchema);
 module.exports.get = function (callback, limit) {
-    Contact.find(callback).limit(limit);
+    Product.find(callback).limit(limit);
 }
