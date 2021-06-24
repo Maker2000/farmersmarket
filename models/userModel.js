@@ -41,7 +41,7 @@ var userSchema = mongoose.Schema({
     age: Number,
     homeAddress: addressSchema,
     role: String,
-   
+    selfDescription: String
 }, {
     toObject:{
     transform: function (doc, ret){

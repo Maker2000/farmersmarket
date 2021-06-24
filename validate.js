@@ -1,5 +1,5 @@
 const Joi = require('@hapi/joi');
-
+//registration validation
 const registerValidation = (data) =>{
 
     const addressSchema = Joi.object({
@@ -16,9 +16,11 @@ const registerValidation = (data) =>{
         age: Joi.number(),
         homeAddress: addressSchema,
         role: Joi.string().required().valid('user', 'admin'),
+        selfDescription: Joi.string()
     });
     return userSchema.validate(data);
 }
+//login validation
 const loginValidation = (data) =>{
     const schema = Joi.object({
        
@@ -27,6 +29,7 @@ const loginValidation = (data) =>{
     });
     return schema.validate(data);
 }
+//product validation
 const productValidation = (data) =>{
     const schema = Joi.object({
         productName: Joi.string().required().valid('Yam', 'Banana', "Pear"),
