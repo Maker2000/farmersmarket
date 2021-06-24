@@ -17,7 +17,7 @@ app.use(express.urlencoded({
 }));
 
 // Connect to Mongoose and set connection variable
-mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 var db = mongoose.connection;
 
 // Added check for DB connection

@@ -3,19 +3,27 @@
 var mongoose = require('mongoose');
 // Setup schema
 var productSchema = mongoose.Schema({
-    name: {
+    productName: {
         type: String,
-        required: true
+        required: true,
+       
     },
     price: {
         type: Number,
         required: true
     },
-    ownerName: String,
+    stockAmount: {
+        type:Number,
+        default: 0,
+    },
+    seller: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+    },
    
 });
 // Export Product model
-var Product = module.exports = mongoose.model('product', productSchema);
+var Product = module.exports = mongoose.model('Product', productSchema);
 module.exports.get = function (callback, limit) {
     Product.find(callback).limit(limit);
 }

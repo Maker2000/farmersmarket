@@ -55,22 +55,71 @@ exports.registerUser = async function (req, res) {
         data: null
     });
     const salt = await bcrypt.genSalt(15);
-    const hashedPassword = await bcrypt.hash(req.body.password, salt);
-    var user = new User(
-        {
-            name: req.body.name,
-            password: hashedPassword,
-            email:  req.body.email
-        }
-    );
+    req.body.password = await bcrypt.hash(req.body.password, salt);
+    console.log(req.body);
+    var user = new User(req.body);
+    
     
 
-    user.save(function (err) {
+    user.save(function (err, newUser) {
         if (err)
             res.json(err);
-    res.json({
+            const token = jwt.sign({_id: newUser._id}, process.env.TOKEN_SECRET);
+    res.header('auth-token', token).status(200).json({
             message: 'New user created!',
-            data: user
+            data: newUser
         });
+    
     });
+}
+exports.editUser = async function(req,res){
+    var currentUser = await User.findOne({_id: req.user._id});
+   
+    if(currentUser.role == 'admin' || req.params.id == req.user._id)
+ 
+     try {
+         var editedUser  = await User.findOneAndUpdate({_id:req.params.id},{$set:req.body}, {new: true, upsert: true});
+        
+     
+       
+         res.status(200).json(
+             {message:"User Edited",
+          data: editedUser}
+              );
+       } catch (error) {
+           console.log(error);
+         res.status(500).json(
+             {message:error,
+          data: null}
+              );;
+       }
+     else return res.status(401).json(
+         {message:'User is not allowed to edit user',
+      data: null}
+          );
+}
+exports.deleteUser = async function(req,res){
+    var currentUser = await User.findOne({_id: req.user._id});   
+    if(currentUser.role == 'admin' || req.params.id == req.user._id)
+     try {
+         const editedUser = await User.findOneAndDelete({_id:req.params.id, });
+     
+         if (!editedUser) res.status(404).json(
+            {message:"No User found",
+         data: null}
+             );
+         res.status(200).json(
+             {message:"User deleted",
+          data: null}
+              );
+       } catch (error) {
+         res.status(500).json(
+             {message:error,
+          data: null}
+              );
+       }
+       else return res.status(401).json(
+         {message:'User is not allowed to delete user',
+      data: null}
+          );
 }
