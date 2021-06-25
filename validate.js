@@ -16,7 +16,8 @@ const registerValidation = (data) =>{
         age: Joi.number(),
         homeAddress: addressSchema,
         role: Joi.string().required().valid('user', 'admin'),
-        selfDescription: Joi.string()
+        selfDescription: Joi.string(),
+        userName: Joi.string().required(),
     });
     return userSchema.validate(data);
 }

@@ -1,22 +1,26 @@
 var mongoose = require('mongoose');
+const Strings = require('../strings');
 // Setup schema
-var cartSchema = mongoose.Schema({
+var cartItemSchema = mongoose.Schema({
     amount: {
         type:Number,
         default: 0,
     },
     product: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product'
+        ref: Strings.Collections.Product
     },
+}, {_id: false});
+var cartSchema = mongoose.Schema({
+    cartItem: [cartItemSchema],
     buyer: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
+            ref: Strings.Collections.User
     },
    
 });
 // Export cart model
-var Cart = module.exports = mongoose.model('Cart', cartSchema);
+var Cart = module.exports = mongoose.model(Strings.Collections.Cart, cartSchema);
 module.exports.get = function (callback, limit) {
     Cart.find(callback).limit(limit);
 }

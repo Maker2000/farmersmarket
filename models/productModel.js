@@ -2,6 +2,8 @@
 
 var mongoose = require('mongoose');
 // Setup schema
+const Strings = require('../strings');
+
 var productSchema = mongoose.Schema({
     productName: {
         type: String,
@@ -18,12 +20,12 @@ var productSchema = mongoose.Schema({
     },
     seller: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
+            ref: Strings.Collections.User
     },
    
 });
 // Export Product model
-var Product = module.exports = mongoose.model('Product', productSchema);
+var Product = module.exports = mongoose.model(Strings.Collections.Product, productSchema);
 module.exports.get = function (callback, limit) {
     Product.find(callback).limit(limit);
 }

@@ -1,4 +1,5 @@
 const res = require('express/lib/response');
+const Strings = require('../strings');
 var mongoose = require('mongoose');
 var addressSchema = mongoose.Schema({
     addressLine1: {
@@ -38,10 +39,17 @@ var userSchema = mongoose.Schema({
         required: true,
         
     },
+    userName:{
+        type: String,
+        default:null,
+    },
     age: Number,
     homeAddress: addressSchema,
     role: String,
-    selfDescription: String
+    selfDescription: {
+        type: String,
+        default: null
+    }
 }, {
     toObject:{
     transform: function (doc, ret){
@@ -55,7 +63,7 @@ var userSchema = mongoose.Schema({
 },});
 
 // Export user model
-var User = module.exports = mongoose.model('User', userSchema);
+var User = module.exports = mongoose.model(Strings.Collections.User, userSchema);
 module.exports.get = function (callback, limit) {
 
     User.find(callback).limit(limit);
