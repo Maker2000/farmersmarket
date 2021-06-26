@@ -18,7 +18,7 @@ var addressSchema = mongoose.Schema({
         default: null,
         type: String,
     },
-}, {_id: false});
+}, {_id: false, versionKey: false});
 
 // Setup schema
 var userSchema = mongoose.Schema({
@@ -49,7 +49,8 @@ var userSchema = mongoose.Schema({
     selfDescription: {
         type: String,
         default: null
-    }
+    },
+    __v: { type: Number, select: false}
 }, {
     toObject:{
     transform: function (doc, ret){

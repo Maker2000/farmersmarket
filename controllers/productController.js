@@ -1,25 +1,8 @@
 Product = require('../models/productModel');
 User = require('../models/userModel');
 const {productValidation} = require('../validate');
-exports.getPublicProducts = function(req, res){
-    Product.get(function (err, products){
-
-if(err){
-    res.json({
-        status: 'error',
-        message: err,
-    });
-
-}
-res.json({
-status: 'success',
-message: 'products retrieved successfully',
-data: products,
-});
-    });
-}
-exports.getPrivateProducts = function(req, res){
-    Product.find({user:{$ne:req.user._id}}).populate('user').exec(function (err, products){
+exports.getProducts = function(req, res){
+    Product.find(/* {user:{$ne:req.user._id}} */).populate('seller').exec(function (err, products){
 
         if(err){
             res.json({
@@ -36,6 +19,7 @@ exports.getPrivateProducts = function(req, res){
         data: products,
         });
             });
+
 }
 exports.newProduct = async function(req, res){
     const {error} = productValidation(req.body);

@@ -22,8 +22,8 @@ var productSchema = mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: Strings.Collections.User
     },
-   
-});
+     __v: { type: Number, select: false}
+},);
 // Export Product model
 var Product = module.exports = mongoose.model(Strings.Collections.Product, productSchema);
 module.exports.get = function (callback, limit) {

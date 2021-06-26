@@ -14,8 +14,7 @@ var productController = require('./controllers/productController');
 var userController = require('./controllers/userController');
 var cartController = require('./controllers/cartController');
 //product routes
-router.get('/products/getPublicProducts',productController.getPublicProducts);
-router.get('/products/getPrivateProducts',verify,productController.getPrivateProducts);
+router.get('/products/getProducts',productController.getProducts);
 
 router.post('/products/addNewProduct',verify,productController.newProduct);
 router.patch('/products/editProductById/:id',verify,productController.editProduct);
