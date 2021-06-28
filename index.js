@@ -39,13 +39,19 @@ app.use('/api', apiRoutes);
 const server = app.listen(port, function () {
     console.log("Running RestHub on port " + port);
 });
-const io = socket(server);
- 
-io.on('connection', function(socket){
-    console.log(socket);
+const io = socket(server, 
+    {
+      path: '/socket', transports: ['websocket', 'polling'], credentials: true , allowEIO3: true }
+);
+
+io.on("connection", (socket)=>{
+    console.log('user connected');
+    socket.on('disconnect', () => console.log('Client disconnected'));
+    io.emit('changes', 'attack');
 });
+
 Product.watch().on('change', (change) => {
 
     console.log(change.fullDocument);
-    io.to(change.fullDocument._id).emit('changes', change.fullDocument);
+    io.emit('changes', change.fullDocument);
 });
