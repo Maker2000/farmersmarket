@@ -4,7 +4,9 @@ let express = require('express');
 // Import Body parser
 //let bodyParser = require('body-parser');
 // Import Mongoose
+const Product = require('./models/productModel');
 let mongoose = require('mongoose');
+const socket = require('socket.io');
 // Initialise the app
 let app = express();
 require('dotenv/config');
@@ -21,11 +23,10 @@ mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true, useUnifiedT
 var db = mongoose.connection;
 
 // Added check for DB connection
-if(!db)
+if (!db)
     console.log("Error connecting db")
 else
     console.log("Db connected successfully")
-
 // Setup server port
 var port = process.env.PORT || 3000;
 
@@ -35,6 +36,16 @@ app.get('/', (req, res) => res.send('Hello World with Express'));
 // Use Api routes in the App
 app.use('/api', apiRoutes);
 // Launch app to listen to specified port
-app.listen(port, function () {
+const server = app.listen(port, function () {
     console.log("Running RestHub on port " + port);
+});
+const io = socket(server);
+ 
+io.on('connection', function(socket){
+    console.log(socket);
+});
+Product.watch().on('change', (change) => {
+
+    console.log(change.fullDocument);
+    io.to(change.fullDocument._id).emit('changes', change.fullDocument);
 });

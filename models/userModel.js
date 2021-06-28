@@ -41,7 +41,8 @@ var userSchema = mongoose.Schema({
     },
     userName:{
         type: String,
-        default:null,
+        default:'',
+        required: true
     },
     age: Number,
     homeAddress: addressSchema,

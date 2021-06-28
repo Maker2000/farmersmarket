@@ -1,5 +1,6 @@
 
 const Cart = require('../models/cartModel');
+const Product = require('../models/productModel');
 exports.getCart = async function(req, res){
     await Cart.findOne({buyer:req.user._id}).populate('cartItem.product').exec(function(error, cartItems){
         if(error){
@@ -19,7 +20,13 @@ exports.getCart = async function(req, res){
     });
 }
 exports.addToCart = async function(req, res){
-    
+    var product = await Product.findOne(req.product);
+    if(product.stockAmount < res.body.amount)
+    return res.json({
+        status: 'Error',
+        message: 'Requested amount exceeds stock amount',
+        data: null,
+        });
     var existingCartUser = await Cart.findOne({buyer: req.user._id});
 
     if(existingCartUser)

@@ -2,7 +2,10 @@ Product = require('../models/productModel');
 User = require('../models/userModel');
 const {productValidation} = require('../validate');
 exports.getProducts = function(req, res){
-    Product.find(/* {user:{$ne:req.user._id}} */).populate('seller').exec(function (err, products){
+    Product.find(/* {user:{$ne:req.user._id}} */).populate({
+        path: 'seller',
+        select: 'userName'
+    }).exec(function (err, products){
 
         if(err){
             res.json({
@@ -63,7 +66,11 @@ exports.newProduct = async function(req, res){
     }
 }
 exports.editProduct = async function(req, res){
+     if(req.body.stockAmount < 0)
+     req.body.stockAmount = 0;
+//    return this.deleteProduct();
     var currentUser = await User.findOne({_id: req.user._id});
+   
    
    if(currentUser.role == 'admin' || req.body.sellerId ==  req.user._id)
 
@@ -113,4 +120,24 @@ exports.deleteProduct = async function(req, res){
         {message:'User is not allowed to delete product',
      data: null}
          );
+}
+exports.getProductsBySellerId = async function(req, res){
+    
+   
+  
+    try {
+        const products = await Product.find({seller:req.params.id, });
+    
+        
+        res.status(200).json(
+            {message:"Products found",
+         data: products}
+             );
+      } catch (error) {
+        res.status(404).json(
+            {message:error,
+         data: null}
+             );
+      }
+     
 }
