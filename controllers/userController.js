@@ -4,9 +4,10 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 exports.loginUser = async function(req, res){
+    console.log(req.body);
     const {error} = loginValidation(req.body);
     if(error) return res.status(400).json(error.details);
-    const user = await User.findOne({email: req.body.email});
+    const user = await User.findOne({$or:[{email: req.body.email}, {userName: req.body.email}]});
     if(!user)
     return res.status(400).json({
         message: 'email or password is wrong',
@@ -35,7 +36,13 @@ exports.registerUser = async function (req, res) {
     const emailExists = await User.findOne({email: req.body.email});
     if(emailExists)
     return res.status(400).send({
-        message: 'User already exists!',
+        message: 'Email already exists!',
+        data: null
+    });
+    const userNameExists = await User.findOne({userName: req.body.userName});
+    if(userNameExists)
+    return res.status(400).send({
+        message: 'Username already exists!',
         data: null
     });
     const salt = await bcrypt.genSalt(15);
@@ -124,4 +131,28 @@ exports.getUserById = async function(req,res){
               );;
        }
     
+}
+exports.checkUsernameAvailability = async function(req, res){
+    try {
+        var currentUser = await User.findOne({userName: req.params.username});
+        if(currentUser)
+         res.status(200).json(
+
+             {message:"User fetched",
+          data: false}
+              );
+        else
+        res.status(404).json(
+
+            {message:"User Missing",
+         data: true}
+             );
+
+       } catch (error) {
+       
+         res.status(500).json(
+             {message:error,
+          data: null}
+              );;
+       }
 }

@@ -37,7 +37,7 @@ var userSchema = mongoose.Schema({
         type: String,
         trim: true,
         required: true,
-        
+       
     },
     userName:{
         type: String,
@@ -56,11 +56,13 @@ var userSchema = mongoose.Schema({
     toObject:{
     transform: function (doc, ret){
         delete ret.password;
+        delete ret.__v;
     },
 
 }, toJSON:{
     transform: function (doc, ret){
         delete ret.password;
+        delete ret.__v;
     }
 },});
 

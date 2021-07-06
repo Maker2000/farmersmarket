@@ -41,7 +41,11 @@ const server = app.listen(port, function () {
 });
 const io = socket(server, 
     {
-      path: '/socket', transports: ['websocket', 'polling'], credentials: true , allowEIO3: true }
+      path: '/socket',
+      transports: ['websocket', 'polling'], 
+      credentials: true, 
+      allowEIO3: true 
+    }
 );
 
 io.on("connection", (socket)=>{
@@ -53,5 +57,6 @@ io.on("connection", (socket)=>{
 Product.watch().on('change', (change) => {
 
     console.log(change.fullDocument);
+    
     io.emit('changes', change.fullDocument);
 });

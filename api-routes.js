@@ -25,6 +25,8 @@ router.post('/user/registerUser', userController.registerUser);
 router.patch('/user/editUserById/:id',verify, userController.editUser);
 router.patch('/user/deleteUserById/:id',verify, userController.deleteUser);
 router.post('/user/loginUser', userController.loginUser);
+router.get('/user/checkUsernameAvailability/:username', userController.checkUsernameAvailability);
+
 //cart routes
 router.get('/user/cart/getCart', verify,cartController.getCart);
 router.post('/user/cart/addToCart', verify,cartController.addToCart);
