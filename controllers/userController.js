@@ -54,9 +54,9 @@ exports.registerUser = async function (req, res) {
 
     user.save(function (err, newUser) {
         if (err)
-            res.json(err);
+        return  res.json(err);
             const token = jwt.sign({_id: newUser._id}, process.env.TOKEN_SECRET);
-    res.header('auth-token', token).status(200).json({
+            return res.header('auth-token', token).status(200).json({
             message: 'New user created!',
             data: newUser
         });
@@ -73,13 +73,13 @@ exports.editUser = async function(req,res){
         
      
        
-         res.status(200).json(
+         return res.status(200).json(
              {message:"User Edited",
           data: editedUser}
               );
        } catch (error) {
            console.log(error);
-         res.status(500).json(
+           return res.status(500).json(
              {message:error,
           data: null}
               );;
@@ -99,12 +99,12 @@ exports.deleteUser = async function(req,res){
             {message:"No User found",
          data: null}
              );
-         res.status(200).json(
+             return res.status(200).json(
              {message:"User deleted",
           data: null}
               );
        } catch (error) {
-         res.status(500).json(
+        return  res.status(500).json(
              {message:error,
           data: null}
               );
@@ -119,13 +119,13 @@ exports.getUserById = async function(req,res){
  
      try {
         var currentUser = await User.findOne({_id: req.params.id});
-         res.status(200).json(
+        return res.status(200).json(
              {message:"User fetched",
           data: currentUser}
               );
        } catch (error) {
        
-         res.status(500).json(
+        return res.status(500).json(
              {message:error,
           data: null}
               );;
@@ -136,13 +136,13 @@ exports.checkUsernameAvailability = async function(req, res){
     try {
         var currentUser = await User.findOne({userName: req.params.username});
         if(currentUser)
-         res.status(200).json(
+        return res.status(200).json(
 
              {message:"User fetched",
           data: false}
               );
         else
-        res.status(404).json(
+        return res.status(404).json(
 
             {message:"User Missing",
          data: true}
@@ -150,7 +150,7 @@ exports.checkUsernameAvailability = async function(req, res){
 
        } catch (error) {
        
-         res.status(500).json(
+        return  res.status(500).json(
              {message:error,
           data: null}
               );;

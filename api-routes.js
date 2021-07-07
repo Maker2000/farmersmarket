@@ -2,6 +2,7 @@
 // Initialize express router
 let router = require('express').Router();
 let verify = require('./middleware/verifyToken');
+let productVerify = require('./middleware/productFilter');
 // Set default API response
 router.get('/', function (req, res) {
     res.json({
@@ -14,7 +15,7 @@ var productController = require('./controllers/productController');
 var userController = require('./controllers/userController');
 var cartController = require('./controllers/cartController');
 //product routes
-router.get('/products/getProducts',productController.getProducts);
+router.get('/products/getProducts',productVerify,productController.getProducts);
 router.get('/products/getProductsBySellerId/:id',productController.getProductsBySellerId);
 router.post('/products/addNewProduct',verify,productController.newProduct);
 router.patch('/products/editProductById/:id',verify,productController.editProduct);

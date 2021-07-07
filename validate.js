@@ -1,7 +1,6 @@
 const Joi = require('@hapi/joi');
 //registration validation
 const registerValidation = (data) =>{
-console.log(data);
     const addressSchema = Joi.object({
         addressLine1: Joi.string().required(),
         addressLine2:Joi.string().allow('').optional(),
@@ -23,7 +22,6 @@ console.log(data);
 }
 //login validation
 const loginValidation = (data) =>{
-    console.log(data);
     const schema = Joi.object({
        
         email: Joi.string().required(),
@@ -37,7 +35,7 @@ const productValidation = (data) =>{
         productName: Joi.string().required().valid('Yam', 'Banana', "Pear"),
         price: Joi.number().required(),
         stockAmount: Joi.number(),
-    });
+    }).options({ allowUnknown: true });
     return schema.validate(data);
 }
 

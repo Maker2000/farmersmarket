@@ -2,9 +2,9 @@
 const Cart = require('../models/cartModel');
 const Product = require('../models/productModel');
 exports.getCart = async function(req, res){
-    await Cart.findOne({buyer:req.user._id}).populate('cartItem.product').exec(function(error, cartItems){
+    Cart.findOne({buyer:req.user._id}).populate('cartItem.product').exec(function(error, cartItems){
         if(error){
-            res.json({
+           return res.json({
                 status: 'error',
                 
                 message: err,
@@ -12,7 +12,7 @@ exports.getCart = async function(req, res){
             });
         
         }
-        res.json({
+        return res.json({
         status: 'success',
         message: 'cart retrieved successfully',
         data: cartItems,
@@ -40,13 +40,13 @@ exports.addToCart = async function(req, res){
             //console.log(existingCartItem);
            // req.body.buyer = req.user._id;
             var carttItem = await Cart.findOneAndUpdate({buyer: req.user._id, "cartItem.product":req.body.product },{$set: {"cartItem.$.amount":existingCartItem.cartItem.find(item=>item.product == req.body.product._id).amount+req.body.amount}}, {new: true, upsert: true});
-            res.json({
+            return  res.json({
                 status: 'success',
                 message: 'Product added to cart successfully',
                 data: carttItem,
                 });
         } catch (error) {
-            res.json({
+            return res.json({
                 status: 'error',
                 
                 message: error,
@@ -59,13 +59,13 @@ exports.addToCart = async function(req, res){
                 existingCartUser.cartItem.push(req.body);
                 var ctItem = await existingCartUser.save();
                 console.log(ctItem);
-                res.json({
+                return res.json({
                     status: 'success',
                     message: 'Product added to cart successfully',
                     data: ctItem,
                     });
             } catch (error) {
-                res.json({
+                return res.json({
                     status: 'error',
                     
                     message: error,
@@ -79,13 +79,13 @@ exports.addToCart = async function(req, res){
         try {
             req.body.buyer = req.user._id;
             var cartItem = await new Cart(req.body).save();
-            res.json({
+            return  res.json({
                 status: 'success',
                 message: 'Product added to cart successfully',
                 data: cartItem,
                 });
         } catch (error) {
-            res.json({
+            return res.json({
                 status: 'error',
                 
                 message: error,
