@@ -2,7 +2,7 @@ Product = require('../models/productModel');
 User = require('../models/userModel');
 const {productValidation} = require('../validate');
 exports.getProducts = function(req, res){
-    
+    console.log(req.user);
     if(req.user)
     Product.find({seller:{$ne:req.user._id}}).populate({
         path: 'seller',
@@ -39,7 +39,7 @@ exports.getProducts = function(req, res){
                 });
             
             }
-            return res.json({
+            return res.status(200).json({
             status: 'success',
             message: 'products retrieved successfully',
             data: products,
